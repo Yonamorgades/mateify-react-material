@@ -30,14 +30,14 @@ export default function SimpleTable() {
   const classes = useStyles();
 
   return (
-    <Fragment >
+    <Fragment>
       <Grid container="bool" justify="center" alignItems="center" direction="column">
         <Box m={5}>
           <FormControl >
             <OutlinedInput
               placeholder="Buscar"
               labelWidth={0}
-              startAdornment={< InputAdornment position = "start" > <SearchOutlinedIcon/> < /InputAdornment>}/>
+              startAdornment={< InputAdornment position = "start" > <SearchOutlinedIcon/> </InputAdornment> }/>
           </FormControl>
         </Box>
         <TableContainer component={Paper}>
