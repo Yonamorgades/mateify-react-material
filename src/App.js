@@ -8,6 +8,7 @@ import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import Playlist from './Pages/Playlist';
 import Box from '@material-ui/core/Box';
+import 'fontsource-roboto';
 
 const theme = createMuiTheme({
   palette: {
@@ -29,7 +30,7 @@ const App = () => {
     <Router>
       <ThemeProvider theme={theme}>
           <Box m={0}>
-            <NavBar justify="center"/>
+            <NavBar loginState={loginState}/>
           </Box>
           <Container>
             <Switch>

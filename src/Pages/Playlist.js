@@ -14,21 +14,21 @@ import FormControl from '@material-ui/core/FormControl';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-
+import songs from '../songs.json';
 const useStyles = makeStyles({
   table: {
     minWidth: 650
   }
 });
 
-function createData(name, artist, duration, votes) {
-  return {name, artist, duration, votes};
-}
+// function createData(name, artist, duration, votes) {
+//   return {name, artist, duration, votes};
+// }
+// const rows = {...songs};
 
-const rows = [createData('Maldición', 'Once Tiros', '3:04', 1252)];
-export default function SimpleTable() {
+function Playlist() {
   const classes = useStyles();
-
+  let rows = [songs];
   return (
     <Fragment>
       <Grid container="bool" justify="center" alignItems="center" direction="column">
@@ -37,13 +37,13 @@ export default function SimpleTable() {
             <OutlinedInput
               placeholder="Buscar"
               labelWidth={0}
-              startAdornment={< InputAdornment position = "start" > <SearchOutlinedIcon/> </InputAdornment> }/>
+              startAdornment={< InputAdornment position = "start" > <SearchOutlinedIcon/> < /InputAdornment>}/>
           </FormControl>
         </Box>
         <TableContainer component={Paper}>
           <Table className={classes.table}>
             <TableHead>
-              <Typography variant="h6" style={{
+              <Typography  style={{
                 fontSize: 20
               }}>
                 Tu playlist
@@ -75,3 +75,4 @@ export default function SimpleTable() {
     </Fragment>
   );
 }
+export default Playlist;
