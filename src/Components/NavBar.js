@@ -6,26 +6,20 @@ import Typography from '@material-ui/core/Typography';
 import MateifyLogo from '../Images/LogoMateify.png';
 import Box from '@material-ui/core/Box';
 import {makeStyles} from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
 
-const styles = makeStyles({
-  typography: {
-    fontFamily: [ 'Righteous,cursive']
-    }
-});
 
-const NavBar = ({loginState}) => {
-  const classes = styles();
-
+const NavBar = ({loginState,currentUser}) => {
   return (
     <Box boxShadow="3">
       <AppBar position="static">
         <Toolbar>
           <Grid container={true} direction="row" justify={loginState?'space-between':'center'} alignItems="center">
             <img src={MateifyLogo} alt="MateifyLogo"/>
-            <Typography variant="h6" className={classes.typography}>
+            <Box ml={2} textAlign="center" fontSize={32} fontFamily='Righteous'> 
               Mateaify
-            </Typography>
-            Componente imagen
+            </Box>
+            {loginState && <Avatar alt={currentUser.email} src={currentUser.imageUrl}/>}
           </Grid>
         </Toolbar>
       </AppBar>

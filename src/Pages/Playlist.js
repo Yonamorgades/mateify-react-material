@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
+import Hidden from '@material-ui/core/Hidden';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -20,16 +20,13 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650
-  }
-});
+import IconButton from '@material-ui/core/IconButton';
 
-function Playlist() {
 
+
+const Playlist = () => {
   const [searchSong,
-    setSearchSong] = React.useState("maldici");
+    setSearchSong] = React.useState("");
   const [searchResults,
     setSearchResults] = React.useState([]);
 
@@ -39,7 +36,22 @@ function Playlist() {
   const handleChangeSearch = event => {
     setSearchSong(event.target.value);
   };
-
+  const addVoteSong = (event, name) => {
+    let indice = playlist.findIndex(s => s.uuid === name)
+    let newPlaylist = [...playlist]
+    newPlaylist[indice].votes = newPlaylist[indice].votes
+      ? newPlaylist[indice].votes + 1
+      : 1;
+    SetPlaylist(newPlaylist)
+  };
+  const removeVoteSong = (event, name) => {
+    let indice = playlist.findIndex(s => s.uuid === name)
+    let newPlaylist = [...playlist]
+    newPlaylist[indice].votes = newPlaylist[indice].votes
+      ? newPlaylist[indice].votes - 1
+      : 1;
+    SetPlaylist(newPlaylist)
+  };
   const handleClickAdd = song => {
     let inPlaylist = playlist.find(s => s === song);
     if (!inPlaylist) {
@@ -55,142 +67,179 @@ function Playlist() {
       ? JSON.stringify(song).toLowerCase().includes(searchSong.toLowerCase())
       : '');
     const filterResult = results.filter(r => !playlist.includes(r));
-
     setSearchResults(filterResult.slice(0, 5));
-  }, [searchSong,playlist]);
+  }, [searchSong, playlist]);
 
-  const classes = useStyles();
   return (
     <Fragment>
       <Grid container="bool" justify="center" alignItems="center" direction="column">
-        <Box m={5}>
-          <FormControl >
-            <OutlinedInput
-              placeholder="Buscar"
-              labelWidth={0}
-              onChange={handleChangeSearch}
-              value={searchSong}
-              startAdornment={< InputAdornment position = "start" > <SearchOutlinedIcon/> < /InputAdornment>}/>
-          </FormControl>
+        <Box m={4} width='50%'>
+          <OutlinedInput
+            placeholder="Buscar"
+            labelWidth={0}
+            onChange={handleChangeSearch}
+            value={searchSong}
+            fullWidth='bool'
+            startAdornment={< InputAdornment position = "start" > <SearchOutlinedIcon/> </InputAdornment>}/>
         </Box>
-        <TableContainer component={Paper}>
-          <Table className={classes.table}>
-            <TableHead>
-              <Typography style={{
-                fontSize: 20
-              }}>
-                Resultados
-              </Typography>
-              <TableRow>
-                <TableCell align="left">Nombre</TableCell>
-                <TableCell align="left">Artista</TableCell>
-                <TableCell align="left">Album</TableCell>
-                <TableCell align="left">Duracion</TableCell>
-                <TableCell align="left">Agregar</TableCell>
-              </TableRow>
-            </TableHead>
+        <Box mt={1} width='100%'>
+          <TableContainer component={Paper}>
+            <Table >
+              <TableHead>
+                <Box m={2}>
+                  <Typography variant='h6' color='secondary'>
+                    Resultados
+                  </Typography>
+                </Box>
+                <TableRow>
+                  <TableCell align="left">Nombre</TableCell>
+                  <TableCell align="left">Artista</TableCell>
+                  <Hidden smDown>
+                    <TableCell align="left">Album</TableCell>
+                    <TableCell align="left">Duración</TableCell>
+                  </Hidden>
+                  <TableCell align="left">Agregar</TableCell>
+                </TableRow>
+              </TableHead>
 
-            <TableBody>
-              {searchResults.map((row) => (
-                <TableRow key={row.uuid}>
-                  <TableCell>
-                    <Grid container direction="row" spacing={2} alignItems="center">
-                      <Avatar alt={row.artist.name} src={row.artist.coverUrl}/>
-                      <Typography >{row.name}</Typography>
-                    </Grid>
-                  </TableCell>
-                  <TableCell align="left">
-                    {row.artist.name}
-                  </TableCell>
-                  <TableCell align="left">{row.album}</TableCell>
-                  <TableCell align="left">{row.duration}</TableCell>
-                  <TableCell align="left">
-                    <Fab
-                      color="secondary"
-                      size="small"
-                      onClick={() => handleClickAdd(row)}
-                      aria-label="add">
-                      <AddIcon/>
-                    </Fab>
+              <TableBody>
+                {searchResults.map((row) => (
+                  <TableRow key={row.uuid}>
+                    <TableCell>
+                      <Grid container direction="row" spacing={2} alignItems="center">
+                      <Hidden smDown>
+                        <Box m={1}>
+                        <Avatar alt={row.artist.name} src={row.artist.coverUrl}/>
+                        </Box>
+                      </Hidden>
+                        <Box m={1}>
+                          <Typography >{row.name}</Typography>
+                        </Box>
+                      </Grid>
+                    </TableCell>
+                    <TableCell align="left">
+                      {row.artist.name}
+                    </TableCell>
+                    <Hidden smDown>
+                    <TableCell align="left">{row.album}</TableCell>
+                    </Hidden>
+                    <Hidden smDown>
+                      <TableCell align="left">{row.duration}</TableCell>
+                    </Hidden>
+                    <TableCell align="left">
+                      <Fab
+                        color="secondary"
+                        size="small"
+                        onClick={() => handleClickAdd(row)}
+                        aria-label="add">
+                        <AddIcon/>
+                      </Fab>
+                    </TableCell>
+                  </TableRow>
+                ))}
+
+                {searchResults.length < 1 && <TableRow key='error' align='center'>
+                  <TableCell
+                    colspan="6"
+                    style={{
+                    "text-align": "center"
+                  }}
+                    variant="footer">
+                    <Typography>
+                      No hay Resultados: Utiliza la barra de búsqueda para encontrar canciones
+                    </Typography>
                   </TableCell>
                 </TableRow>
-              ))}
-
-              {searchResults.length < 1 && <TableRow key='error' align='center'>
-                <TableCell
-                  colspan="6"
-                  style={{
-                  "text-align": "center"
-                }}
-                  variant="footer">
-                  <Typography>
-                    No hay Resultados: Utiliza la barra de búsqueda para encontrar canciones
-                  </Typography>
-                </TableCell>
-              </TableRow>
 }
-            </TableBody>
+              </TableBody>
 
-          </Table>
-        </TableContainer>
-        <TableContainer component={Paper}>
-          <Table className={classes.table}>
-            <TableHead>
-              <Typography style={{
-                fontSize: 20
-              }}>
-                Tu playlist
-              </Typography>
-              <TableRow>
-                <TableCell align="left">Nombre</TableCell>
-                <TableCell align="left">Artista</TableCell>
-                <TableCell align="left">Duracion</TableCell>
-                <TableCell align="left">Cantidad de votos</TableCell>
-                <TableCell align="left">Votar</TableCell>
-              </TableRow>
-            </TableHead>
+            </Table>
+          </TableContainer>
+        </Box>
+        <Box width='100%' mt={4}>
+          <TableContainer component={Paper} mt={2}>
+            <Table >
+              <TableHead>
+                <Box m={2}>
+                  <Typography variant='h6' color='secondary'>
+                    Tu Playlist
+                  </Typography>
+                </Box>
+                <TableRow>
+                  <TableCell align="left">Nombre</TableCell>
+                  <TableCell align="left">Artista</TableCell>
+                  <Hidden smDown>
+                    <TableCell align="left">Duracion</TableCell>
+                  </Hidden>
+                  <Hidden smDown>
+                    <TableCell align="left">Cantidad de votos</TableCell>
+                  </Hidden>
+                    <TableCell align="left">Votar</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {playlist.map((row) => (
+                  <TableRow key={row.uuid}>
+                    <TableCell>
+                      <Grid container direction="row" spacing={2} alignItems="center">
+                      <Hidden smDown>
+                        <Box m={1}>
+                          <Avatar alt={row.artist.name} src={row.artist.coverUrl}/>
+                        </Box>
+                      </Hidden>
+                        <Box m={1}>
+                          <Typography >{row.name}</Typography>
+                        </Box>
+                      </Grid>
+                    </TableCell>
+                    <TableCell align="left">
+                      {row.artist.name}
+                    </TableCell>
+                    <Hidden smDown>
+                    <TableCell align="left">{row.duration}</TableCell>
+                    </Hidden>
+                    <Hidden>
+                    <TableCell align="left">{row.votes
+                        ? row.votes
+                        : ''}</TableCell>
+                    </Hidden>
+                    <TableCell align="left">
+                      <Grid container direction="row" >
+                        <Box mr={1}>
+                          <ThumbUpIcon onClick={(event) => addVoteSong(event, row.uuid)}></ThumbUpIcon>
+                        </Box>
+                        <Box ml={1}>
+                        <ThumbDownIcon onClick={(event) => removeVoteSong(event, row.uuid)}></ThumbDownIcon>
+                        </Box>
+                      </Grid>
+                    </TableCell>
+                  </TableRow>
+                ))}
 
-            <TableBody>
-              {playlist.map((row) => (
-                <TableRow key={row.uuid}>
-                  <TableCell>
-                    <Grid container direction="row" spacing={2} alignItems="center">
-                      <Avatar alt={row.artist.name} src={row.artist.coverUrl}/>
-                      <Typography >{row.name}</Typography>
-                    </Grid>
-                  </TableCell>
-                  <TableCell align="left">
-                    {row.artist.name}
-                  </TableCell>
-                  <TableCell align="left">{row.duration}</TableCell>
-                  <TableCell align="left">{row.votes
-                      ? row.votes
-                      : ''}</TableCell>
-                  <TableCell align="left">
-                    <Grid container direction="row" spacing={4} alignItems="center">
-                      <ThumbUpIcon></ThumbUpIcon>
-                      <ThumbDownIcon></ThumbDownIcon>
+                {playlist.length < 1 && <TableRow key='error' align='center'>
+                  <TableCell
+                    colspan="6"
+                    style={{
+                    "text-align": "center"
+                  }}
+                    variant="footer">
+                <Grid container="bool" direction="column" alignItems="center">
+                    <Box boxShadow={1}  p={2} mt={1} mb={1} width='50%' alignItems='center'>
+                      <Typography variant='body1'>
+                          UPS!, TU PLAYLIST AUN ESTA VACIA 
+                      </Typography>
+                      <Typography>
+                        Comienza a agregar canciones
+                      </Typography>
+                    </Box>
                     </Grid>
                   </TableCell>
                 </TableRow>
-              ))}
-
-              {playlist.length < 1 && <TableRow key='error' align='center'>
-                <TableCell
-                  colspan="6"
-                  style={{
-                  "text-align": "center"
-                }}
-                  variant="footer">
-                  <Typography>
-                    UPS!, TU PLAYLIST AUN ESTA VACIA Comienza a agregar canciones
-                  </Typography>
-                </TableCell>
-              </TableRow>
 }
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
       </Grid>
     </Fragment>
   );

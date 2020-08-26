@@ -13,11 +13,11 @@ const iconBox = {
   alignItems:'center',
 };
 
-const BlockImg = ({iconWhidth, iconHeight, imgSize}) => {
+const BlockImg = ({iconWhidth, iconHeight, imgSize, mt}) => {
    return (
       <Grid container="bool" justify="center" alignItems="center" direction="column">
         <Box display="flex" justifyContent="center">
-          <Box borderRadius="50%"  {...iconBox} style={{ width:iconWhidth + 'rem', height:iconHeight + 'rem' }}>
+          <Box borderRadius="50%" mt={mt} {...iconBox} style={{ width:iconWhidth + 'rem', height:iconHeight + 'rem' }}>
               <LockRoundedIcon style={{ fontSize: imgSize }} color="primary"></LockRoundedIcon>
           </Box>
         </Box>

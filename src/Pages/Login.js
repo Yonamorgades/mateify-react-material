@@ -10,7 +10,7 @@ import Divider from '@material-ui/core/Divider';
 import BlockImg from '../Components/BlockImg';
 import {makeStyles} from '@material-ui/core/styles';
 
-const Login = () => {
+const Login = ({handleClickLogin,handleChangePsw,handleChangeMail}) => {
   return (
     <Fragment>
       <Box boxShadow="3" mt={4} pt={2} pb={2} mb={4} width="100%">
@@ -22,10 +22,10 @@ const Login = () => {
           <FormControl fullWidth margin="dense">
             <Grid container="bool" direction="column" alignItems="center">
               <Box mt={2} width="50%">
-                <TextField id="outlined-basic"  fullWidth label="Correo electrónico" variant="outlined"/>
+                <TextField id="outlined-basic" onChange={handleChangeMail}  fullWidth label="Correo electrónico" variant="outlined"/>
               </Box>
               <Box mt={4} width="50%">
-                <TextField
+                <TextField onChange={handleChangePsw}
                   fullWidth="bool"
                   id="outlined-password-input"
                   label="Contraseña"
@@ -33,14 +33,13 @@ const Login = () => {
                   autoComplete="current-password"
                   variant="outlined"/>
               </Box>
-              <Box mt={3} width='50%' >
-                <Button fullWidth variant="contained" color="secondary" >COMENZAR A CREAR PLAYLISTS</Button>
+              <Box mt={3} width='50%'>
+                <Button fullWidth variant="contained" color="secondary" onClick={handleClickLogin}>COMENZAR A CREAR PLAYLISTS</Button>
               </Box>
               <Box mt={3} mb={3}>
                 <Link href="#" color="secondary" variant='body2'>¿HAZ OLVIDADO LA CONTRASEÑA?</Link>
               </Box>
             </Grid>
-            <Divider variant="middle"/>
             <Grid
               container="bool"
               direction="column"
@@ -50,7 +49,7 @@ const Login = () => {
                 <Link href="#" color="inherit">¿NO TIENES CUENTA?</Link>
               </Box>
               <Box mt={3} width='25%' borderColor="secondary.main" borderRadius={5} border={1}>
-                <Button variant="outlined"   fullWidth color="primary" href="#">REGISTRATE</Button>
+                <Button variant="outlined" fullWidth color="primary" href="#">REGISTRATE</Button>
               </Box>
             </Grid>
           </FormControl>
@@ -59,5 +58,4 @@ const Login = () => {
     </Fragment>
   )
 }
-
-export default Login;
+export default Login; 
