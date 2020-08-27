@@ -36,16 +36,16 @@ const Playlist = () => {
   const handleChangeSearch = event => {
     setSearchSong(event.target.value);
   };
-  const addVoteSong = (event, name) => {
-    let indice = playlist.findIndex(s => s.uuid === name)
+  const addVoteSong = (event, uuid) => {
+    let indice = playlist.findIndex(s => s.uuid === uuid)
     let newPlaylist = [...playlist]
     newPlaylist[indice].votes = newPlaylist[indice].votes
       ? newPlaylist[indice].votes + 1
       : 1;
     SetPlaylist(newPlaylist)
   };
-  const removeVoteSong = (event, name) => {
-    let indice = playlist.findIndex(s => s.uuid === name)
+  const removeVoteSong = (event, uuid) => {
+    let indice = playlist.findIndex(s => s.uuid === uuid)
     let newPlaylist = [...playlist]
     newPlaylist[indice].votes = newPlaylist[indice].votes
       ? newPlaylist[indice].votes - 1
@@ -80,7 +80,7 @@ const Playlist = () => {
             onChange={handleChangeSearch}
             value={searchSong}
             fullWidth='bool'
-            startAdornment={< InputAdornment position = "start" > <SearchOutlinedIcon/> </InputAdornment>}/>
+            startAdornment={< InputAdornment position = "start" > <SearchOutlinedIcon/></InputAdornment>}/>
         </Box>
         <Box mt={1} width='100%'>
           <TableContainer component={Paper}>
