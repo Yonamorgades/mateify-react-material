@@ -78,7 +78,7 @@ const Playlist = () => {
             onChange={handleChangeSearch}
             value={searchSong}
             fullWidth='bool'
-            startAdornment={< InputAdornment position = "start" > <SearchOutlinedIcon/> < /InputAdornment>}/>
+            startAdornment={< InputAdornment position = "start" > <SearchOutlinedIcon/> </InputAdornment>}/>
         </Box>
         <Box mt={1} width='100%'>
           <TableContainer component={Paper}>
