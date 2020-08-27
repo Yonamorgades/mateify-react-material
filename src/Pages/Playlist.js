@@ -22,8 +22,6 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import IconButton from '@material-ui/core/IconButton';
 
-
-
 const Playlist = () => {
   const [searchSong,
     setSearchSong] = React.useState("");
@@ -80,7 +78,7 @@ const Playlist = () => {
             onChange={handleChangeSearch}
             value={searchSong}
             fullWidth='bool'
-            startAdornment={< InputAdornment position = "start" > <SearchOutlinedIcon/></InputAdornment>}/>
+            startAdornment={< InputAdornment position = "start" > <SearchOutlinedIcon/> < /InputAdornment>}/>
         </Box>
         <Box mt={1} width='100%'>
           <TableContainer component={Paper}>
@@ -107,11 +105,11 @@ const Playlist = () => {
                   <TableRow key={row.uuid}>
                     <TableCell>
                       <Grid container direction="row" spacing={2} alignItems="center">
-                      <Hidden smDown>
-                        <Box m={1}>
-                        <Avatar alt={row.artist.name} src={row.artist.coverUrl}/>
-                        </Box>
-                      </Hidden>
+                        <Hidden smDown>
+                          <Box m={1}>
+                            <Avatar alt={row.artist.name} src={row.artist.coverUrl}/>
+                          </Box>
+                        </Hidden>
                         <Box m={1}>
                           <Typography >{row.name}</Typography>
                         </Box>
@@ -121,7 +119,7 @@ const Playlist = () => {
                       {row.artist.name}
                     </TableCell>
                     <Hidden smDown>
-                    <TableCell align="left">{row.album}</TableCell>
+                      <TableCell align="left">{row.album}</TableCell>
                     </Hidden>
                     <Hidden smDown>
                       <TableCell align="left">{row.duration}</TableCell>
@@ -174,7 +172,7 @@ const Playlist = () => {
                   <Hidden smDown>
                     <TableCell align="left">Cantidad de votos</TableCell>
                   </Hidden>
-                    <TableCell align="left">Votar</TableCell>
+                  <TableCell align="left">Votar</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -182,11 +180,11 @@ const Playlist = () => {
                   <TableRow key={row.uuid}>
                     <TableCell>
                       <Grid container direction="row" spacing={2} alignItems="center">
-                      <Hidden smDown>
-                        <Box m={1}>
-                          <Avatar alt={row.artist.name} src={row.artist.coverUrl}/>
-                        </Box>
-                      </Hidden>
+                        <Hidden smDown>
+                          <Box m={1}>
+                            <Avatar alt={row.artist.name} src={row.artist.coverUrl}/>
+                          </Box>
+                        </Hidden>
                         <Box m={1}>
                           <Typography >{row.name}</Typography>
                         </Box>
@@ -196,21 +194,23 @@ const Playlist = () => {
                       {row.artist.name}
                     </TableCell>
                     <Hidden smDown>
-                    <TableCell align="left">{row.duration}</TableCell>
+                      <TableCell align="left">{row.duration}</TableCell>
                     </Hidden>
-                    <Hidden>
-                    <TableCell align="left">{row.votes
-                        ? row.votes
-                        : ''}</TableCell>
+                    <Hidden smDown>
+                      <TableCell align="left">{row.votes
+                          ? row.votes
+                          : ''}</TableCell>
                     </Hidden>
-                    <TableCell align="left">
-                      <Grid container direction="row" >
-                        <Box mr={1}>
+                    <TableCell align="center">
+                      <Grid container direction="row" alignItems='center'>
+                        <Box>
                           <ThumbUpIcon onClick={(event) => addVoteSong(event, row.uuid)}></ThumbUpIcon>
                         </Box>
-                        <Box ml={1}>
-                        <ThumbDownIcon onClick={(event) => removeVoteSong(event, row.uuid)}></ThumbDownIcon>
-                        </Box>
+                        <Hidden smDown>
+                          <Box ml={2}>
+                            <ThumbDownIcon onClick={(event) => removeVoteSong(event, row.uuid)}></ThumbDownIcon>
+                          </Box>
+                        </Hidden>
                       </Grid>
                     </TableCell>
                   </TableRow>
@@ -223,15 +223,15 @@ const Playlist = () => {
                     "text-align": "center"
                   }}
                     variant="footer">
-                <Grid container="bool" direction="column" alignItems="center">
-                    <Box boxShadow={1}  p={2} mt={1} mb={1} width='50%' alignItems='center'>
-                      <Typography variant='body1'>
-                          UPS!, TU PLAYLIST AUN ESTA VACIA 
-                      </Typography>
-                      <Typography>
-                        Comienza a agregar canciones
-                      </Typography>
-                    </Box>
+                    <Grid container="bool" direction="column" alignItems="center">
+                      <Box boxShadow={1} p={2} mt={1} mb={1} width='50%' alignItems='center'>
+                        <Typography variant='body1'>
+                          UPS!, TU PLAYLIST AUN ESTA VACIA
+                        </Typography>
+                        <Typography>
+                          Comienza a agregar canciones
+                        </Typography>
+                      </Box>
                     </Grid>
                   </TableCell>
                 </TableRow>
